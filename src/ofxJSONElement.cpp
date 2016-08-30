@@ -153,3 +153,51 @@ std::string ofxJSONElement::toString(Json::ValueType type)
             return "unknown";
     }
 }
+
+
+
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * |||   Convert Series   |||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* =============================================================== *
+ * const ofxJSONElement Convert(const ofPoint &data);              *
+ * =============================================================== */
+const ofxJSONElement ofxJSONElement :: Convert(const ofPoint& data){
+  ofxJSONElement json;
+
+  json["x"] = data.x;
+  json["y"] = data.y;
+  json["z"] = data.z;
+
+  return json;
+}
+
+/* =============================================================== *
+ * const ofxJSONElement Convert(const ofVec2f &data);              *
+ * =============================================================== */
+const ofxJSONElement ofxJSONElement :: Convert(const ofVec2f& data){
+  ofxJSONElement json;
+
+  json["x"] = data.x;
+  json["y"] = data.y;
+
+  return json;
+}
+
+/* =============================================================== *
+ * const ofxJSONElement Convert(const ofRectangle &data);          *
+ * =============================================================== */
+const ofxJSONElement ofxJSONElement :: Convert(const ofRectangle& data){
+  ofxJSONElement json;
+
+  json["x"]      = data.x;
+  json["y"]      = data.y;
+  json["width"]  = data.width;
+  json["height"] = data.height;
+
+  return json;
+}
+
