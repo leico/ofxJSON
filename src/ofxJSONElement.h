@@ -48,4 +48,6 @@ public:
     template<typename T>
     static const T Decode(const ofxJSONElement& json);
 
+    static void Merge(Json :: Value& a, const Json :: Value& b);
+
 };

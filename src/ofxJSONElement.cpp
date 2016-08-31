@@ -273,9 +273,9 @@ const ofVec2f ofxJSONElement :: Decode<ofVec2f>(const ofxJSONElement& json){
 
 }
 
-/* ================================================================= *
- * const ofRectangle Decode<ofRectangle(const ofxJSONElement& json); *
- * ================================================================= */
+/* ================================================================== *
+ * const ofRectangle Decode<ofRectangle>(const ofxJSONElement& json); *
+ * ================================================================== */
 template<>
 const ofRectangle ofxJSONElement :: Decode<ofRectangle>(const ofxJSONElement& json){
 
@@ -304,3 +304,38 @@ const ofRectangle ofxJSONElement :: Decode<ofRectangle>(const ofxJSONElement& js
   return data;
 
 }
+
+/* ================================================================= *
+ * const void Merge(ofxJSONElement& a, const ofxJSONElement& b);     *
+ * ================================================================= */
+void ofxJSONElement :: Merge(Json :: Value& a, const Json :: Value& b){
+  
+  const vector<std :: string> member = b.getMemberNames();
+  for(int i = 0 ; i < member.size() ; ++ i){
+
+    if(a[ member[i] ].isNull()){
+      a[ member[i] ] = b[ member[i] ];
+
+      if(b[ member[i] ].isObject())
+        Merge(a[ member[i] ], b[member[i] ]);
+
+      continue;
+    }
+
+    //a.member[i] already exists -----------------------------------
+    
+    //a.member[i] and b.member[i] is object
+    if(a[ member[i] ].isObject() && b[ member[i] ].isObject()){
+      Merge(a[ member[i] ], b[ member[i] ]);
+      continue;
+    }
+
+    //a.member[i] override from b.member[i]
+    a[ member[i] ] = b[ member[i] ];
+
+    if(b[ member[i] ].isObject())
+      Merge(a[ member[i] ], b[ member[i] ]);
+    
+  }
+}
+
