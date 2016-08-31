@@ -158,14 +158,14 @@ std::string ofxJSONElement::toString(Json::ValueType type)
 
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
- * |||   Convert Series   |||||||||||||||||||||||||||||||||||||||| *
+ * |||   Encode Series   ||||||||||||||||||||||||||||||||||||||||| *
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 /* =============================================================== *
- * const ofxJSONElement Convert(const ofPoint &data);              *
+ * const ofxJSONElement Encode(const ofPoint &data);              *
  * =============================================================== */
-const ofxJSONElement ofxJSONElement :: Convert(const ofPoint& data){
+const ofxJSONElement ofxJSONElement :: Encode(const ofPoint& data){
   ofxJSONElement json;
 
   json["x"] = data.x;
@@ -176,9 +176,9 @@ const ofxJSONElement ofxJSONElement :: Convert(const ofPoint& data){
 }
 
 /* =============================================================== *
- * const ofxJSONElement Convert(const ofVec2f &data);              *
+ * const ofxJSONElement Encode(const ofVec2f &data);              *
  * =============================================================== */
-const ofxJSONElement ofxJSONElement :: Convert(const ofVec2f& data){
+const ofxJSONElement ofxJSONElement :: Encode(const ofVec2f& data){
   ofxJSONElement json;
 
   json["x"] = data.x;
@@ -188,9 +188,9 @@ const ofxJSONElement ofxJSONElement :: Convert(const ofVec2f& data){
 }
 
 /* =============================================================== *
- * const ofxJSONElement Convert(const ofRectangle &data);          *
+ * const ofxJSONElement Encode(const ofRectangle &data);          *
  * =============================================================== */
-const ofxJSONElement ofxJSONElement :: Convert(const ofRectangle& data){
+const ofxJSONElement ofxJSONElement :: Encode(const ofRectangle& data){
   ofxJSONElement json;
 
   json["x"]      = data.x;
@@ -201,3 +201,106 @@ const ofxJSONElement ofxJSONElement :: Convert(const ofRectangle& data){
   return json;
 }
 
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * |||   Decode Series   ||||||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| *
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ================================================================= *
+ * const T Decode(const ofxJSONElement& json);                       *
+ * ================================================================= */
+template<typename T>
+const T ofxJSONElement :: Decode(const ofxJSONElement& json){
+  
+  T data;
+
+  data = static_cast<T>(
+      json.isNull  () ? 0 :
+      json.isArray () ? 0 :
+      json.isObject() ? 0 :
+      json.isString() ? 0 : json.asInt()
+  );
+  
+  return data;
+}
+
+
+/* ================================================================= *
+ * const ofPoint Decode<ofPoint>(const ofxJSONElement& json);        *
+ * ================================================================= */
+template<>
+const ofPoint ofxJSONElement :: Decode<ofPoint>(const ofxJSONElement& json){
+  ofPoint data;
+
+  data.x = json["x"].isNull  () ? 0 :
+           json["x"].isArray () ? 0 :
+           json["x"].isObject() ? 0 :
+           json["x"].isString() ? 0 : json["x"].asFloat();
+
+  data.y = json["y"].isNull  () ? 0 :
+           json["y"].isArray () ? 0 :
+           json["y"].isObject() ? 0 :
+           json["y"].isString() ? 0 : json["y"].asFloat();
+
+  data.z = json["z"].isNull  () ? 0 :
+           json["z"].isArray () ? 0 :
+           json["z"].isObject() ? 0 :
+           json["z"].isString() ? 0 : json["z"].asFloat();
+
+  return data;
+}
+
+/* ================================================================= *
+ * const ofVec2f Decode<ofVec2f>(const ofxJSONElement& json);        *
+ * ================================================================= */
+template<>
+const ofVec2f ofxJSONElement :: Decode<ofVec2f>(const ofxJSONElement& json){
+  
+  ofVec2f data;
+
+  data.x = json["x"].isNull  () ? 0 :
+           json["x"].isArray () ? 0 :
+           json["x"].isObject() ? 0 :
+           json["x"].isString() ? 0 : json["x"].asFloat();
+
+  data.y = json["y"].isNull  () ? 0 :
+           json["y"].isArray () ? 0 :
+           json["y"].isObject() ? 0 :
+           json["y"].isString() ? 0 : json["y"].asFloat();
+
+  return data;
+
+}
+
+/* ================================================================= *
+ * const ofRectangle Decode<ofRectangle(const ofxJSONElement& json); *
+ * ================================================================= */
+template<>
+const ofRectangle ofxJSONElement :: Decode<ofRectangle>(const ofxJSONElement& json){
+
+  ofRectangle data;
+
+  data.x = json["x"].isNull  () ? 0 :
+           json["x"].isArray () ? 0 :
+           json["x"].isObject() ? 0 :
+           json["x"].isString() ? 0 : json["x"].asFloat();
+
+  data.y = json["y"].isNull  () ? 0 :
+           json["y"].isArray () ? 0 :
+           json["y"].isObject() ? 0 :
+           json["y"].isString() ? 0 : json["y"].asFloat();
+
+  data.width = json["width"].isNull  () ? 0 :
+               json["width"].isArray () ? 0 :
+               json["width"].isObject() ? 0 :
+               json["width"].isString() ? 0 : json["width"].asFloat();
+
+  data.height = json["height"].isNull  () ? 0 :
+                json["height"].isArray () ? 0 :
+                json["height"].isObject() ? 0 :
+                json["height"].isString() ? 0 : json["height"].asFloat();
+
+  return data;
+
+}

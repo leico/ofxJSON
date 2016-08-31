@@ -41,8 +41,11 @@ public:
 
     static std::string toString(Json::ValueType type);
 
-    static const ofxJSONElement Convert(const ofPoint& data);
-    static const ofxJSONElement Convert(const ofVec2f& data);
-    static const ofxJSONElement Convert(const ofRectangle& data);
+    static const ofxJSONElement Encode(const ofPoint& data);
+    static const ofxJSONElement Encode(const ofVec2f& data);
+    static const ofxJSONElement Encode(const ofRectangle& data);
+
+    template<typename T>
+    static const T Decode(const ofxJSONElement& json);
 
 };
