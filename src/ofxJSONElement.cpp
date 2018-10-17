@@ -36,7 +36,7 @@ bool ofxJSONElement::parse(const std::string& jsonString)
 }
 
 
-bool ofxJSONElement::open(const string& filename)
+bool ofxJSONElement::open(const std::string& filename)
 {
     if (filename.find("http://") == 0 || filename.find("https://") == 0)
     {
@@ -58,6 +58,23 @@ bool ofxJSONElement::openLocal(const std::string& filename)
     if (!reader.parse(buffer.getText(), *this))
     {
         ofLogError("ofxJSONElement::openLocal") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+
+// added by Kajiyu(Yuma Kajihara)
+bool ofxJSONElement::openFromBuffer(const ofBuffer& buffer)
+{
+    Json::Reader reader;
+    
+    if (!reader.parse(buffer.getText(), *this))
+    {
+        ofLogError("ofxJSONElement::openLocal") << "Unable to parse "  << ": " << reader.getFormattedErrorMessages();
         return false;
     }
     else
@@ -96,10 +113,10 @@ bool ofxJSONElement::save(const std::string& filename, bool pretty) const
     if (pretty)
     {
         Json::StyledWriter writer;
-        file << writer.write( *this ) << endl;
+        file << writer.write( *this ) << std::endl;
     } else {
         Json::FastWriter writer;
-        file << writer.write( *this ) << endl;
+        file << writer.write( *this ) << std::endl;
     }
 
     ofLogVerbose("ofxJSONElement::save") << "JSON saved to " << file.getAbsolutePath() << ".";
